@@ -1,0 +1,359 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Serif', serif;
+  box-sizing: border-box;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.header {
+  height: 75px;
+  background-color: #000000;
+}
+
+.header span {
+  display: block;
+  font-size: 30px;
+  text-transform: uppercase;
+  padding: 15px;
+  text-align: center;
+}
+
+.header span a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.header nav {
+  position: absolute;
+  top: 25px;
+  right: 5%;
+}
+
+.header nav ul li {
+  margin: 0 0 0 15px;
+  display: inline-block;
+}
+
+.header nav ul li img:hover {
+  cursor: pointer;
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  top: 75px;
+  right: 5%;
+  border: 1px solid #d3d3d3;
+  background-color: #ffffff;
+  min-width: 200px;
+}
+
+.menu ul {
+  list-style-type: none;
+}
+
+.menu ul a:hover {
+  text-decoration: none;
+}
+
+.menu ul li {
+  padding: 20px 10px;
+}
+
+.menu ul li:hover {
+  background-color: #fafafa;
+}
+
+.search {
+  width: 700px;
+  margin: 25px auto;
+  display: none;
+  background-color: #ffffff;
+  z-index: 30;
+}
+
+.search .form-group {
+  margin: 0;
+}
+
+.search .form-group input {
+  padding: 0;
+  border: 0;
+  border-bottom: 2.5px solid #d3d3d3;
+}
+
+.search .form-group input:active,
+.search .form-group input:focus {
+  border: 0;
+  border-bottom: 2.5px solid #000000;
+}
+
+.form {
+  width: 500px;
+  margin: 25px auto;
+}
+
+.form h2 {
+  text-align: center;
+  padding: 25px;
+}
+
+.form-group {
+  margin: 10px;
+}
+
+.form-group input {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #d3d3d3;
+}
+
+.form-group input:active,
+.form-group input:focus,
+.form-group textarea:active,
+.form-group textarea:focus {
+  outline: none;
+  border: 1px solid #000000;
+}
+
+.form-group input[type="submit"] {
+  width: initial;
+  padding: 0 25px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.form-group input[type="submit"]:hover {
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+}
+
+.form-group input[type="checkbox"] {
+  width: 20px;
+  display: block;
+}
+
+.form-group label {
+  font-size: 14px;
+}
+
+.form-group textarea {
+  width: 100%;
+  height: 500px;
+  padding: 10px;
+  border: 1px solid #d3d3d3;
+  resize: none;
+}
+
+.form-group img {
+  width: 100%;
+  margin: 25px 0;
+}
+
+.error {
+  height: 40px;
+  padding: 10px;
+  display: block;
+  background-color: lightcoral;
+  color: darkred;
+}
+
+.flash {
+  width: 100%;
+  height: 50px;
+  display: block;
+  background-color: lightblue;
+  color: darkslategrey;
+}
+
+.flash p {
+  padding: 15px;
+  float: left;
+}
+
+.close {
+  padding: 10px 15px;
+  font-size: 24px;
+  display: block;
+  float: right;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+.posts {
+  width: 700px;
+  margin: 25px auto;
+}
+
+#heading {
+  border-bottom: 1px solid #d3d3d3;
+  padding: 10px 0;
+}
+
+.posts h2 {
+  margin: 25px 0;
+}
+
+.user-info {
+  width: 100%;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.user-info img {
+  width: 75px;
+  margin-right: 15px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.user-info h1 {
+  padding: 10px 0;
+  display: inline-block;
+}
+
+.user-info button {
+  height: 40px;
+  margin: 0 25px;
+  padding: 0 20px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.user-info button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+}
+
+.user-info span {
+  display: block;
+  margin: 10px 0;
+}
+
+.post {
+  margin: 50px 0;
+}
+
+.post h3,
+.post h6 {
+  margin: 10px 0;
+}
+
+.post p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.search-nav ul {
+  list-style-type: none;
+}
+
+.search-nav ul li {
+  display: inline-block;
+  font-size: 34px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.single-post {
+  width: 700px;
+  margin: 25px auto;
+}
+
+.single-post h3 {
+  font-size: 26px;
+}
+
+.single-post h6 {
+  margin: 10px 0;
+}
+
+.single-post img {
+  display: block;
+  margin: 25px 0;
+  width: 100%;
+}
+
+.single-post p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#bookmark {
+  width: 25px;
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.comments {
+  margin-top: 50px;
+  border-top: 1px solid #d3d3d3;
+}
+
+.comments h2 {
+  font-size: 20px;
+  padding: 25px 0;
+}
+
+.comments .form-group {
+  margin: 10px 0;
+}
+
+.comment {
+  margin: 25px 0;
+}
+
+.comments .form-group textarea {
+  height: 150px;
+}
+
+.footer {
+  border-top: 1px solid #d3d3d3;
+}
+
+.footer p {
+  font-size: 12px;
+  text-align: center;
+  color: #818181;
+  padding: 25px;
+}
+
+.error-message {
+  margin: 100px 0;
+}
+
+.error-message h1,
+.error-message p {
+  text-align: center;
+  padding: 25px;
+}
+
+@media(max-width: 750px) {
+  .header span {
+    text-align: left;
+    margin-left: 5%;
+    padding: 15px 0;
+  }
+
+  .form,
+  .posts,
+  .single-post,
+  .search {
+    width: 80%;
+  }
+}

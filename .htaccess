@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+  Options -MultiViews
+  RewriteEngine On
+  RewriteRule ^$ public/ [L]
+  RewriteRule (.*)$ public/$1 [L]
+</IfModule>
+
+ErrorDocument 404 /app/views/errors/404.php
