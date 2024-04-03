@@ -3,11 +3,11 @@
 <div class="form">
   <h2>New Post</h2>
 
-  <form enctype="multipart/form-data" action="<?php $self; ?>" method="POST">
+  <form enctype="multipart/form-data" action="<?php self() ?>" method="POST">
     <div class="form-group">
       <?php if(!empty($data['errors'])): ?>
         <?php foreach($data['errors'] as $error): ?>
-          <span class="error"><?=$error?></span>
+          <span class="error"><?= $error ?></span>
         <?php endforeach; ?>
       <?php endif; ?>
     </div>
@@ -21,7 +21,7 @@
       <textarea name="post_text" placeholder="Text"></textarea>
     </div>
     <div class="form-group">
-      <input type="hidden" name="token" value="<?=generate('token')?>">
+      <input type="hidden" name="token" value="<?= generate('token') ?>">
       <input type="submit" name="create" value="Create Post">
     </div>
   </form>

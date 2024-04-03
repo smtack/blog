@@ -1,5 +1,5 @@
 <?php
-class Core {
+class App {
   protected $controller = 'Pages';
   protected $method = 'index';
   protected $params = [];
@@ -12,6 +12,8 @@ class Core {
         $this->controller = $url[0];
 
         unset($url[0]);
+      } else {
+        redirect(404);
       }
     }
 
@@ -24,6 +26,8 @@ class Core {
         $this->method = $url[1];
 
         unset($url[1]);
+      } else {
+        redirect(404);
       }
     }
 

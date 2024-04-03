@@ -1,5 +1,7 @@
 <?php
 class Posts extends Controller {
+  private $db;
+
   public $userModel;
   public $postModel;
   
@@ -8,16 +10,29 @@ class Posts extends Controller {
       redirect('users/login');
     }
 
+    $this->db = new Database();
+
     $this->userModel = $this->model('User');
     $this->postModel = $this->model('Post');
   }
 
   public function index() {
     $user_data = $this->userModel->getUser($_SESSION['user']);
-    $posts = $this->postModel->getHomepagePosts($user_data->user_id);
+
+    $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+
+    $start = ($page > 1) ? ($page * 10) - 10 : 0;
+
+    $posts = $this->postModel->getHomepagePosts($user_data->user_id, $start);
+
+    $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
+
+    $pages = ceil($total / 10);
 
     $data = [
       'user_data' => $user_data,
+      'page' => $page,
+      'pages' => $pages,
       'posts' => $posts
     ];
 
@@ -54,7 +69,6 @@ class Posts extends Controller {
         $file_name = basename($_FILES['post_image']['name']);
         $path = $upload_dir . $file_name;
         $file_type = pathinfo($path, PATHINFO_EXTENSION);
-        $allow_types = ['jpg', 'png', 'PNG', 'gif'];
 
         $data = [
           'page_title' => 'New Post',
@@ -67,7 +81,7 @@ class Posts extends Controller {
           'errors' => array()
         ];
   
-        if(!in_array($file_type, $allow_types)) {
+        if(!in_array($file_type, $GLOBALS['allow_file_types'])) {
           array_push($data['errors'], 'This file type is not allowed');
         } else if(!move_uploaded_file($_FILES['post_image']['tmp_name'], $path)) {
           array_push($data['errors'], 'Unable to upload image. Try again later.');
@@ -171,16 +185,26 @@ class Posts extends Controller {
     }
   }
 
-  public function all() {
-    $posts = $this->postModel->getPosts();
-
+  public function all($page = 0) {    
     if(loggedIn()) {
       $user_data = $this->userModel->getUser($_SESSION['user']);
     }
 
+    $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+
+    $start = ($page > 1) ? ($page * 10) - 10 : 0;
+
+    $posts = $this->postModel->getPosts($start);
+
+    $total = $this->db->pdo->query("SELECT FOUND_ROWS() as total")->fetch()->total;
+
+    $pages = ceil($total / 10);
+
     $data = [
       'page_title' => 'All Posts',
       'posts' => $posts,
+      'page' => $page,
+      'pages' => $pages,
       'user_data' => $user_data
     ];
 
@@ -217,13 +241,12 @@ class Posts extends Controller {
             $upload_dir = "../uploads/post-images/";
             $path = $upload_dir . $data['post_image'];
             $file_type = pathinfo($path, PATHINFO_EXTENSION);
-            $allow_types = ['jpg', 'png', 'PNG', 'gif'];
 
             if(!check($data['token'], 'token')) {
               array_push($data['errors'], 'Token Invalid');
             } else if(empty($data['post_title']) || empty($data['post_text'])) {
               array_push($data['errors'], 'Enter a title and some text');
-            } else if(!in_array($file_type, $allow_types)) {
+            } else if(!in_array($file_type, $GLOBALS['allow_file_types'])) {
               array_push($data['errors'], 'This file type is not allowed');
             } else if(!move_uploaded_file($_FILES['post_image']['tmp_name'], $path)) {
               array_push($data['errors'], 'Unable to upload image. Try again later.');
@@ -336,8 +359,9 @@ class Posts extends Controller {
       $keywords = isset($_POST['s']) ? escape($_POST['s']) : ' ';
 
       $users = $this->userModel->searchUsers($keywords);
+
       $posts = $this->postModel->searchPosts($keywords);
-  
+
       $data = [
         'page_title' => 'Search: ' . $keywords,
         'user_data' => $user_data,
@@ -421,11 +445,21 @@ class Posts extends Controller {
       $user_data = $this->userModel->getUser($_SESSION['user']);
     }
 
-    $posts = $this->postModel->getUsersBookmarks($user_data->user_id);
+    $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+
+    $start = ($page > 1) ? ($page * 10) - 10 : 0;
+
+    $posts = $this->postModel->getUsersBookmarks($user_data->user_id, $start);
+
+    $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
+
+    $pages = ceil($total / 10);
 
     $data = [
       'page_title' => 'Your Bookmarks',
       'user_data' => $user_data,
+      'page' => $page,
+      'pages' => $pages,
       'posts' => $posts
     ];
 

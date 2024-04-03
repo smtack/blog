@@ -135,7 +135,7 @@ class Users extends Controller {
 
     session_destroy();
 
-    redirect('users/login');
+    redirect('users');
   }
 
   public function profile($user = false) {
@@ -150,12 +150,22 @@ class Users extends Controller {
       $profile_info = $this->userModel->getProfileInfo($user_data->user_id, $profile->user_id);
     }
 
-    $posts = $this->postModel->getUsersPosts($profile->user_id);
+    $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+
+    $start = ($page > 1) ? ($page * 10) - 10 : 0;
+
+    $posts = $this->postModel->getUsersPosts($profile->user_id, $start);
+
+    $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
+
+    $pages = ceil($total / 10);
 
     $data = [
       'page_title' => $profile->user_name . "'s Profile",
       'profile' => $profile,
       'profile_info' => $profile_info,
+      'page' => $page,
+      'pages' => $pages,
       'posts' => $posts
     ];
 
@@ -226,13 +236,12 @@ class Users extends Controller {
           $upload_dir = "../uploads/profile-pictures/";
           $path = $upload_dir . $data['user_profile_picture'];
           $file_type = pathinfo($path, PATHINFO_EXTENSION);
-          $allow_types = ['jpg', 'png', 'PNG'];
 
           if(!check($data['token'], 'picture-token')) {
             array_push($data['picture_errors'], 'Token Invalid');
           } else if(empty($_FILES['profile_picture']['name'])) {
             array_push($data['picture_errors'], 'Select a file to upload');
-          } else if(!in_array($file_type, $allow_types)) {
+          } else if(!in_array($file_type, $GLOBALS['allow_file_types'])) {
             array_push($data['picture_errors'], 'This file type is not allowed');
           } else if(!move_uploaded_file($_FILES['profile_picture']['tmp_name'], $path)) {
             array_push($data['picture_errors'], 'Unable to upload profile picture');

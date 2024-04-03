@@ -27,8 +27,10 @@ function escape($string) {
   return htmlentities($string, ENT_QUOTES, 'UTF-8');
 }
 
-// Create Random Bytes
+// Create random string for URLs
 
-function random($number) {
-  return bin2hex(random_bytes($number));
+function random($length) {
+  $bytes = random_bytes(ceil($length / 2));
+
+  return substr(bin2hex($bytes), 0, $length);
 }

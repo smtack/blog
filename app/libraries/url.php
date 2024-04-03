@@ -14,11 +14,27 @@ function redirect($location = null) {
         break;
       }
     } else {
-      header('Location: ' . BASE_URL . '/' . $location);
+      header('Location: ' . BASE_URL . $location);
 
       exit();
     }
   }
+}
+
+// Return BASE_URL + Optional location
+
+function base_url($location = null) {
+  if(!$location) {
+    return BASE_URL;
+  } else {
+    return BASE_URL . $location;
+  }
+}
+
+// Return PHP_SELF
+
+function self() {
+  return $_SERVER['PHP_SELF'];
 }
 
 // Create a slug
@@ -39,7 +55,7 @@ function slug($string) {
   
     $string = trim($string, $divider);
   
-    $string .= $divider . rand(0, 1000);
+    $string .= $divider . random(6);
   } else {
     $string = random(25);
   }

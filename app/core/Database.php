@@ -6,7 +6,8 @@ class Database {
   private $dbpass = DB_PASSWORD;
   private $dbchar = DB_CHARSET;
 
-  private $pdo;
+  public $pdo;
+  
   private $dsn;
   private $options;
   private $stmt;

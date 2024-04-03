@@ -1,6 +1,6 @@
   <div class="footer">
-    <p><a href="<?=BASE_URL?>/pages/about">About</a></p>
-    <p>&copy; Blog <?=date('Y')?></p>
+    <p><a href="<?= base_url('pages/about') ?>">About</a></p>
+    <p>&copy; Blog <?= APP_DATE ?></p>
   </div>
 </body>
 </html>

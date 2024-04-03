@@ -259,6 +259,34 @@ a:hover {
   line-height: 1.5;
 }
 
+.pagination {
+  text-align: center;
+}
+
+.pagination ul {
+  list-style-type: none;
+}
+
+.pagination ul li {
+  display: inline-block;
+  margin: 5px;
+}
+
+.pagination a {
+  padding: 5px 10px;
+}
+
+.pagination a:hover {
+  text-decoration: none;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.selected {
+  background-color: #000000;
+  color: #ffffff;
+}
+
 .search-nav ul {
   list-style-type: none;
 }

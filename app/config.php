@@ -10,6 +10,6 @@ define('APP_ROOT', dirname(__FILE__));
 define('VIEW_ROOT', __DIR__ . '/views');
 
 define('SITE_NAME', 'Blog');
-define('APP_VERSION', '1.0.0');
-define('APP_DATE', date('d/m/Y H:i:s'));
-define('APP_DATE_TIME_FORMAT', 'l j F Y H:i');
+define('APP_VERSION', '1.1.0');
+define('APP_DATE', date('Y'));
+define('APP_DATE_TIME_FORMAT', 'l j F Y \a\t H:i');

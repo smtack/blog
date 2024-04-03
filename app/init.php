@@ -9,7 +9,10 @@ require_once "libraries/functions.php";
 require_once "libraries/session.php";
 require_once "libraries/url.php";
 
-ini_set("display_errors", 'on');
+ini_set("display_errors", "on");
+
 error_reporting(E_ALL);
 
-$self = escape($_SERVER['PHP_SELF']);
+$GLOBALS['allow_file_types'] = [
+  'jpg', 'png', 'PNG', 'gif', 'webp'
+];

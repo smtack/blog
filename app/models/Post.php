@@ -27,9 +27,10 @@ class Post {
     return false;
   }
 
-  public function getPosts() {
+  public function getPosts($start) {
     $this->db->query(
       "SELECT
+        SQL_CALC_FOUND_ROWS
         *
       FROM
         posts
@@ -39,7 +40,9 @@ class Post {
         users.user_id = posts.post_by
       ORDER BY
         post_date
-      DESC"
+      DESC
+      LIMIT
+        {$start}, 10"
     );
 
     if($this->db->execute()) {
@@ -49,9 +52,10 @@ class Post {
     return false;
   }
 
-  public function getHomepagePosts($user) {
+  public function getHomepagePosts($user, $start) {
     $this->db->query(
       "SELECT
+        SQL_CALC_FOUND_ROWS
         *
       FROM
         posts
@@ -72,7 +76,9 @@ class Post {
           follows.user_id = $user))
       ORDER BY
         post_date
-      DESC"
+      DESC
+      LIMIT
+        {$start}, 10"
     );
 
     if($this->db->execute()) {
@@ -108,9 +114,10 @@ class Post {
     return false;
   }
 
-  public function getUsersPosts($user) {
+  public function getUsersPosts($user, $start) {
     $this->db->query(
       "SELECT
+        SQL_CALC_FOUND_ROWS
         *
       FROM
         posts
@@ -122,7 +129,9 @@ class Post {
         post_by = :post_by
       ORDER BY
         post_date
-      DESC"
+      DESC
+      LIMIT
+        {$start}, 10"
     );
 
     $this->db->bind(':post_by', $user);
@@ -134,9 +143,10 @@ class Post {
     return false;
   }
 
-  public function getUsersBookmarks($user) {
+  public function getUsersBookmarks($user, $start) {
     $this->db->query(
       "SELECT
+        SQL_CALC_FOUND_ROWS
         *
       FROM
         posts
@@ -154,7 +164,9 @@ class Post {
         bookmarks.bookmarked_by = $user
       ORDER BY
         post_date
-      DESC"
+      DESC
+      LIMIT
+        {$start}, 10"
     );
 
     if($this->db->execute()) {
