@@ -1,7 +1,7 @@
 <?php require_once VIEW_ROOT . '/includes/header.php'; ?>
 
 <div class="form">
-  <h2>Log In</h2>
+  <h2>Sign Up</h2>
   
   <form action="<?php self() ?>" method="POST">
     <div class="form-group">
@@ -12,17 +12,26 @@
       <?php endif; ?>
     </div>
     <div class="form-group">
+      <input type="text" name="user_name" placeholder="Name">
+    </div>
+    <div class="form-group">
       <input type="text" name="user_username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <input type="text" name="user_email" placeholder="Email">
     </div>
     <div class="form-group">
       <input type="password" name="user_password" placeholder="Password">
     </div>
     <div class="form-group">
-      <input type="hidden" name="token" value="<?= generate('token') ?>">
-      <input type="submit" name="login" value="Log In">
+      <input type="password" name="confirm_password" placeholder="Confirm Password">
     </div>
     <div class="form-group">
-      <p>Don't have an account? <a href="<?= base_url('users/signup') ?>">Sign Up</a></p>
+      <input type="hidden" name="token" value="<?= generate('token') ?>">
+      <input type="submit" name="signup" value="Sign Up">
+    </div>
+    <div class="form-group">
+      <p>Already have an account? <a href="<?= base_url('users/login') ?>">Log In</a></p>
     </div>
   </form>
 </div>

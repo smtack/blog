@@ -19,7 +19,7 @@
     </div>
     <?php if($data['post_image']): ?>
       <div class="form-group">
-        <img src="<?= base_url('uploads/post-images/') . escape($data['post_image']) ?>" alt="<?= escape($data['post_image']) ?>">
+        <img src="<?= UPLOAD_ROOT ?>/post-images/<?= escape($data['post_image']) ?>" alt="<?= escape($data['post_image']) ?>">
       </div>
     <?php endif; ?>
     <div class="form-group">

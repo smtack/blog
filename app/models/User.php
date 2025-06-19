@@ -44,6 +44,21 @@ class User {
     return false;
   }
 
+  public function getUsers($start) {
+    $this->db->query(
+      "SELECT
+        SQL_CALC_FOUND_ROWS
+        *
+      FROM
+        users
+      ORDER BY
+        user_joined
+      DESC LIMIT {$start}, 10"
+    );
+
+    return $this->db->results();
+  }
+
   public function getUser($user) {
     $this->db->query(
       "SELECT

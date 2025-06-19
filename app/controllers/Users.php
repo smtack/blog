@@ -13,6 +13,34 @@ class Users extends Controller {
   }
 
   public function index() {
+    if(!loggedIn()) {
+      redirect('users/signup');
+    } else {
+      $user_data = $this->userModel->getUser($_SESSION['user']);
+    }
+
+    $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+
+    $start = ($page > 1) ? ($page * 10) - 10 : 0;
+
+    $users = $this->userModel->getUsers($start);
+
+    $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
+
+    $pages = ceil($total / 10);
+
+    $data = [
+      'page_title' => 'Users',
+      'userData' => $user_data,
+      'page' => $page,
+      'pages' => $pages,
+      'users' => $users,
+    ];
+
+    $this->view('users/index', $data);
+  }
+
+  public function signup() {
     if(loggedIn()) {
       redirect('posts');
     }
@@ -55,7 +83,7 @@ class Users extends Controller {
           array_push($data['errors'], 'Unable to Sign Up. Try again later');
         }
       } else {
-        $this->view('users/index', $data);
+        $this->view('users/signup', $data);
       }
     } else {
       $data = [
@@ -68,7 +96,7 @@ class Users extends Controller {
         'errors' => array()
       ];
     
-      $this->view('users/index', $data);
+      $this->view('users/signup', $data);
     }
   }
 
@@ -92,7 +120,7 @@ class Users extends Controller {
         array_push($data['errors'], 'Enter your Username and Password');
       }
       
-      if(empty($data['errors'])) {
+      if(empty($data['errors'])) {        
         $authenticate = $this->userModel->logIn($data['user_username'], $data['user_password']);
 
         if($authenticate) {

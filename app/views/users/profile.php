@@ -3,7 +3,7 @@
 <div class="posts">
   <div class="user-info">
     <?php if($data['profile']->user_profile_picture): ?>
-      <img src="<?= base_url('uploads/profile-pictures/') . escape($data['profile']->user_profile_picture) ?>" alt="<?= escape($data['profile']->user_profile_picture) ?>">
+      <img src="<?= UPLOAD_ROOT ?>/profile-pictures/<?= escape($data['profile']->user_profile_picture) ?>" alt="<?= escape($data['profile']->user_profile_picture) ?>">
     <?php endif; ?>
 
     <h1><?= escape($data['profile']->user_name) ?>'s Posts</h1>

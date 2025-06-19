@@ -21,7 +21,7 @@ function formatDate($date, $format = APP_DATE_TIME_FORMAT) {
   return date($format, strtotime($date));
 }
 
-// Sanitize user input and database output
+// Sanitize database output
 
 function escape($string) {
   return htmlentities($string, ENT_QUOTES, 'UTF-8');
@@ -33,4 +33,14 @@ function random($length) {
   $bytes = random_bytes(ceil($length / 2));
 
   return substr(bin2hex($bytes), 0, $length);
+}
+
+// Error Handler
+
+function errorHandler() {
+  if(error_reporting()) {
+    include_once VIEW_ROOT . '/errors/error.php';
+
+    exit();
+  }
 }

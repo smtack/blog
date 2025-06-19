@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // Flash function to display messages to user
 
 function flash($name = '', $message = '', $class = 'flash') {
@@ -29,7 +27,6 @@ function flash($name = '', $message = '', $class = 'flash') {
     }
   }
 }
-
 
 // Check if user is logged in
 

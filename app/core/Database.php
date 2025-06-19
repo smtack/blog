@@ -81,6 +81,10 @@ class Database {
     return $this->stmt->fetch();
   }
 
+  public function first() {
+    return $this->results()[0];
+  }
+
   public function rowCount() {
     return $this->stmt->rowCount();
   }

@@ -10,7 +10,7 @@
   <?php endif; ?>
   
   <?php if($data['post']->post_image): ?>
-    <img src="<?= base_url('uploads/post-images/') . escape($data['post']->post_image) ?>" alt="<?= escape($data['post']->post_image) ?>">
+    <img src="<?= UPLOAD_ROOT ?>/post-images/<?= escape($data['post']->post_image) ?>" alt="<?= escape($data['post']->post_image) ?>">
   <?php endif; ?>
   
   <p><?= escape($data['post']->post_text) ?></p>
@@ -23,9 +23,9 @@
 
   <?php if(loggedIn() && $_SESSION['user'] !== $data['post']->user_username): ?>
     <?php if(!findValue($data['bookmark_data'], 'bookmarked_by', $data['user_data']->user_id)): ?>
-      <a href="<?= base_url('posts/bookmark/') . escape($data['post']->post_id) ?>"><img id="bookmark" src="<?= base_url('public/img/bookmark.svg') ?>" alt="Bookmark"></a>
+      <a href="<?= base_url('posts/bookmark/') . escape($data['post']->post_id) ?>"><img id="bookmark" src="/img/bookmark.svg" alt="Bookmark"></a>
     <?php else: ?>
-      <a href="<?= base_url('posts/removebookmark/') . escape($data['post']->post_id) ?>"><img id="bookmark" src="<?= base_url('public/img/bookmark-black.svg') ?>" alt="Bookmark"></a>
+      <a href="<?= base_url('posts/removebookmark/') . escape($data['post']->post_id) ?>"><img id="bookmark" src="/img/bookmark-black.svg" alt="Bookmark"></a>
     <?php endif; ?>
   <?php endif; ?>
 

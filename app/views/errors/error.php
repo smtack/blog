@@ -25,9 +25,9 @@
   </div>
   
   <div class="error-message">
-    <h1>404 NOT FOUND</h1>
+    <h1>ERROR</h1>
 
-    <p><a href="<?= base_url() ?>">Back to Homepage</a></p>
+    <p><a href="<?= base_url() ?>">Try again later</a></p>
   </div>
 </body>
 </html>

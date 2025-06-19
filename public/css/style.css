@@ -210,11 +210,13 @@ a:hover {
 
 .user-info {
   width: 100%;
+  padding: 25px 0;
   border-bottom: 1px solid #d3d3d3;
 }
 
 .user-info img {
   width: 75px;
+  height: 75px;
   margin-right: 15px;
   display: inline-block;
   border-radius: 50%;
@@ -227,11 +229,12 @@ a:hover {
 
 .user-info button {
   height: 40px;
-  margin: 0 25px;
+  margin: 10px 25px;
   padding: 0 20px;
   background-color: #000000;
   color: #ffffff;
   border: 1px solid #000000;
+  float: right;
 }
 
 .user-info button:hover {
@@ -269,7 +272,7 @@ a:hover {
 
 .pagination ul li {
   display: inline-block;
-  margin: 5px;
+  margin: 25px 5px;
 }
 
 .pagination a {
