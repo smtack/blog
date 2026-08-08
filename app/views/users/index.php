@@ -6,7 +6,7 @@
 
         <div class="user-info">
             <?php if($user->user_profile_picture): ?>
-                <img src="<?= UPLOAD_ROOT ?>/profile-pictures/<?= escape($user->user_profile_picture) ?>" alt="<?= escape($user->user_profile_picture) ?>">
+                <img src="/uploads/profile-pictures/<?= escape($user->user_profile_picture) ?>" alt="<?= escape($user->user_profile_picture) ?>">
             <?php endif; ?>
             
             <a href="<?= base_url('users/profile/') . escape($user->user_username) ?>"><h1><?= escape($user->user_name) ?></h1></a>

@@ -1,33 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link href="/css/style.css" rel="stylesheet">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
-  <link rel="manifest" href="/img/favicon/site.webmanifest">
-
-  <script src="/js/main.js" defer></script>
-
-  <title><?= isset($data['page_title']) ? SITE_NAME . ' - ' . $data['page_title'] : SITE_NAME ?></title>
-</head>
-<body>
-  <div class="header">
-    <span><a href="<?= base_url() ?>">Blog</a></span>
-  </div>
+<?php require_once VIEW_ROOT . '/includes/header.php'; ?>
   
-  <div class="error-message">
+<div class="error-message">
     <h1>404 NOT FOUND</h1>
 
     <p><a href="<?= base_url() ?>">Back to Homepage</a></p>
-  </div>
-</body>
-</html>
+</div>
+
+<?php require_once VIEW_ROOT . '/includes/footer.php'; ?>
