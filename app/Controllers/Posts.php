@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\Database;
+use Core\Pagination;
 
 class Posts extends Controller
 {
@@ -28,21 +29,16 @@ class Posts extends Controller
     {
         $user_data = $this->userModel->getUser($_SESSION['user']);
 
-        $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+        $pagination = new Pagination($_GET['p'] ?? 1, 10);
 
-        $start = ($page > 1) ? ($page * 10) - 10 : 0;
+        $posts = $this->postModel->getHomepagePosts($user_data->user_id, $pagination->offset(), $pagination->limit());
 
-        $posts = $this->postModel->getHomepagePosts($user_data->user_id, $start);
-
-        $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
-
-        $pages = ceil($total / 10);
+        $pagination->setTotal($posts['total']);
 
         $data = [
             'user_data' => $user_data,
-            'page' => $page,
-            'pages' => $pages,
-            'posts' => $posts
+            'posts' => $posts['posts'],
+            'pagination' => $pagination,
         ];
 
         $this->view('posts/index', $data);
@@ -196,27 +192,22 @@ class Posts extends Controller
         }
     }
 
-    public function all($page = 0)
+    public function all()
     {    
         if(loggedIn()) {
             $user_data = $this->userModel->getUser($_SESSION['user']);
         }
 
-        $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+        $pagination = new Pagination($_GET['p'] ?? 1, 10);
 
-        $start = ($page > 1) ? ($page * 10) - 10 : 0;
+        $posts = $this->postModel->getPosts($pagination->offset(), $pagination->limit());
 
-        $posts = $this->postModel->getPosts($start);
-
-        $total = $this->db->pdo->query("SELECT FOUND_ROWS() as total")->fetch()->total;
-
-        $pages = ceil($total / 10);
+        $pagination->setTotal($posts['total']);
 
         $data = [
             'page_title' => 'All Posts',
-            'posts' => $posts,
-            'page' => $page,
-            'pages' => $pages,
+            'posts' => $posts['posts'],
+            'pagination' => $pagination,
             'user_data' => $user_data
         ];
 
@@ -455,28 +446,23 @@ class Posts extends Controller
 
     public function bookmarks()
     {
-        if(!loggedIn()) {
+        if (!loggedIn()) {
             redirect('users/login');
-        } else {
-            $user_data = $this->userModel->getUser($_SESSION['user']);
         }
 
-        $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+        $user_data = $this->userModel->getUser($_SESSION['user']);
 
-        $start = ($page > 1) ? ($page * 10) - 10 : 0;
+        $pagination = new Pagination($_GET['p'] ?? 1, 10);
 
-        $posts = $this->postModel->getUsersBookmarks($user_data->user_id, $start);
+        $posts = $this->postModel->getUsersBookmarks($user_data->user_id, $pagination->offset(), $pagination->limit());
 
-        $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
-
-        $pages = ceil($total / 10);
+        $pagination->setTotal($posts['total']);
 
         $data = [
             'page_title' => 'Your Bookmarks',
             'user_data' => $user_data,
-            'page' => $page,
-            'pages' => $pages,
-            'posts' => $posts
+            'posts' => $posts['posts'],
+            'pagination' => $pagination,
         ];
 
         $this->view('posts/bookmarks', $data);

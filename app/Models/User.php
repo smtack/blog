@@ -53,20 +53,29 @@ class User
         return false;
     }
 
-    public function getUsers($start)
+    public function getUsers(int $offset, int $limit)
     {
         $this->db->query(
             "SELECT
-                SQL_CALC_FOUND_ROWS
                 *
             FROM
                 users
             ORDER BY
                 user_joined
-            DESC LIMIT {$start}, 10"
+            DESC
+            LIMIT {$offset}, {$limit}"
         );
 
-        return $this->db->results();
+        $users = $this->db->results();
+
+        $this->db->query("SELECT COUNT(*) AS total FROM users");
+
+        $total = $this->db->single()->total;
+
+        return [
+            'users' => $users,
+            'total' => $total,
+        ];
     }
 
     public function getUser($user)

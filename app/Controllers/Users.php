@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\Database;
+use Core\Pagination;
 
 class Users extends Controller
 {
@@ -22,28 +23,23 @@ class Users extends Controller
 
     public function index()
     {
-        if(!loggedIn()) {
+        if (!loggedIn()) {
             redirect('users/signup');
-        } else {
-            $user_data = $this->userModel->getUser($_SESSION['user']);
         }
 
-        $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+        $user_data = $this->userModel->getUser($_SESSION['user']);
 
-        $start = ($page > 1) ? ($page * 10) - 10 : 0;
+        $pagination = new Pagination($_GET['p'] ?? 1, 10);
 
-        $users = $this->userModel->getUsers($start);
+        $users = $this->userModel->getUsers($pagination->offset(), $pagination->limit());
 
-        $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
-
-        $pages = ceil($total / 10);
+        $pagination->setTotal($users['total']);
 
         $data = [
             'page_title' => 'Users',
             'userData' => $user_data,
-            'page' => $page,
-            'pages' => $pages,
-            'users' => $users,
+            'users' => $users['users'],
+            'pagination' => $pagination,
         ];
 
         $this->view('users/index', $data);
@@ -181,34 +177,34 @@ class Users extends Controller
 
     public function profile($user = false)
     {
-        if(!$user) {
+        if (!loggedIn()) {
+            redirect('users/login');
+        }
+
+        if (!$user) {
             redirect('posts');
-        } else if(!$profile = $this->userModel->getUser($user)) {
+        }
+        
+        if (!$profile = $this->userModel->getUser($user)) {
             redirect(404);
         }
 
-        if(loggedIn()) {
-            $user_data = $this->userModel->getUser($_SESSION['user']);
-            $profile_info = $this->userModel->getProfileInfo($user_data->user_id, $profile->user_id);
-        }
+        $user_data = $this->userModel->getUser($_SESSION['user']);
 
-        $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+        $profile_info = $this->userModel->getProfileInfo($user_data->user_id, $profile->user_id);
 
-        $start = ($page > 1) ? ($page * 10) - 10 : 0;
+        $pagination = new Pagination($_GET['p'] ?? 1, 10);
 
-        $posts = $this->postModel->getUsersPosts($profile->user_id, $start);
+        $posts = $this->postModel->getUsersPosts($profile->user_id, $pagination->offset(), $pagination->limit());
 
-        $total = $this->db->pdo->query("SELECT FOUND_ROWS() AS total")->fetch()->total;
-
-        $pages = ceil($total / 10);
+        $pagination->setTotal($posts['total']);
 
         $data = [
             'page_title' => $profile->user_name . "'s Profile",
             'profile' => $profile,
             'profile_info' => $profile_info,
-            'page' => $page,
-            'pages' => $pages,
-            'posts' => $posts
+            'posts' => $posts['posts'],
+            'pagination' => $pagination,
         ];
 
         $this->view('users/profile', $data);

@@ -35,11 +35,10 @@ class Post
         return false;
     }
 
-    public function getPosts($start)
+    public function getPosts(int $offset, int $limit)
     {
         $this->db->query(
             "SELECT
-                SQL_CALC_FOUND_ROWS
                 *
             FROM
                 posts
@@ -50,52 +49,59 @@ class Post
             ORDER BY
                 post_date
             DESC
-            LIMIT
-                {$start}, 10"
+            LIMIT {$offset}, {$limit}"
         );
 
-        if($this->db->execute()) {
-            return $this->db->results();
-        }
+        $posts = $this->db->results();
 
-        return false;
+        $this->db->query("SELECT COUNT(*) AS total FROM posts");
+
+        $total = $this->db->single()->total;
+
+        return [
+            'posts' => $posts,
+            'total' => $total,
+        ];
     }
 
-    public function getHomepagePosts($user, $start)
+    public function getHomepagePosts($user, int $offset, int $limit)
     {
         $this->db->query(
-            "SELECT
-                SQL_CALC_FOUND_ROWS
-                *
-            FROM
-                posts
-            LEFT JOIN
-                users
-            ON
-                users.user_id = posts.post_by
+            "SELECT *
+            FROM posts
+            LEFT JOIN users
+                ON users.user_id = posts.post_by
             WHERE
-                (post_by = users.user_id AND users.user_id = $user)
-            OR
-                (post_by = users.user_id AND post_by
-            IN
-                (SELECT
-                followed_id
-                FROM
-                follows
-                WHERE
-                follows.user_id = $user))
-            ORDER BY
-                post_date
-            DESC
-            LIMIT
-                {$start}, 10"
+                users.user_id = $user
+            OR users.user_id IN (
+                SELECT followed_id
+                FROM follows
+                WHERE follows.user_id = $user
+            )
+            ORDER BY post_date DESC
+            LIMIT {$offset}, {$limit}"
         );
 
-        if($this->db->execute()) {
-            return $this->db->results();
-        }
+        $posts = $this->db->results();
 
-        return false;
+        $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM posts
+            WHERE
+                posts.post_by = $user
+            OR posts.post_by IN (
+                SELECT followed_id
+                FROM follows
+                WHERE follows.user_id = $user
+            )"
+        );
+
+        $total = $this->db->single()->total;
+
+        return [
+            'posts' => $posts,
+            'total' => $total,
+        ];
     }
 
     public function getPost($post)
@@ -125,11 +131,10 @@ class Post
         return false;
     }
 
-    public function getUsersPosts($user, $start)
+    public function getUsersPosts($user, int $offset, int $limit)
     {
         $this->db->query(
             "SELECT
-                SQL_CALC_FOUND_ROWS
                 *
             FROM
                 posts
@@ -142,24 +147,37 @@ class Post
             ORDER BY
                 post_date
             DESC
-            LIMIT
-                {$start}, 10"
+            LIMIT {$offset}, {$limit}"
         );
 
         $this->db->bind(':post_by', $user);
 
-        if($this->db->execute()) {
-            return $this->db->results();
-        }
+        $this->db->execute();
 
-        return false;
+        $posts = $this->db->results();
+
+        $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM posts
+            WHERE post_by = :post_by"
+        );
+
+        $this->db->bind(':post_by', $user);
+
+        $this->db->execute();
+
+        $total = $this->db->single()->total;
+
+        return [
+            'posts' => $posts,
+            'total' => $total,
+        ];
     }
 
-    public function getUsersBookmarks($user, $start)
+    public function getUsersBookmarks($user, int $offset, int $limit)
     {
         $this->db->query(
             "SELECT
-                SQL_CALC_FOUND_ROWS
                 *
             FROM
                 posts
@@ -178,15 +196,26 @@ class Post
             ORDER BY
                 post_date
             DESC
-            LIMIT
-                {$start}, 10"
+            LIMIT {$offset}, {$limit}"
         );
 
-        if($this->db->execute()) {
-            return $this->db->results();
-        }
+        $posts = $this->db->results();
 
-        return false;
+        $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM posts
+            LEFT JOIN bookmarks
+                ON posts.post_id = bookmarks.bookmarked_post
+            WHERE posts.post_id = bookmarks.bookmarked_post
+            AND bookmarks.bookmarked_by = $user"
+        );
+
+        $total = $this->db->single()->total;
+
+        return [
+            'posts' => $posts,
+            'total' => $total,
+        ];
     }
 
     public function editPost($data)

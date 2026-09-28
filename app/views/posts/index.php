@@ -34,9 +34,9 @@
 
     <div class="pagination">
         <ul>
-            <?php for($x = 1; $x <= $data['pages']; $x++): ?>
+            <?php for($x = 1; $x <= $data['pagination']->pages(); $x++): ?>
                 <li>
-                    <a href="?p=<?= $x ?>" <?php if($data['page'] === $x) echo 'class="selected"';?>><?= $x ?></a>
+                    <a href="?p=<?= $x ?>" <?php if($data['pagination']->page() === $x) echo 'class="selected"';?>><?= $x ?></a>
                 </li>
             <?php endfor; ?>
         </ul>

@@ -1,12 +1,13 @@
 <?php
 
-const DB_HOST = "";
-const DB_NAME = "";
+const DB_HOST = "127.0.0.1";
+const DB_NAME = "blog";
 const DB_USER = "";
 const DB_PASS = "";
-const DB_CHAR = "";
+const DB_CHAR = "utf8mb4";
 
-const BASE_URL = "";
+// Include trailing slash for BASE_URL
+const BASE_URL = "http://localhost:8080/";
 
 const APP_ROOT = __DIR__ . '../app';
 const VIEW_ROOT = __DIR__ . '/../app/views';
